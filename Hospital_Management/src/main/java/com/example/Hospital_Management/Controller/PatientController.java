@@ -30,6 +30,7 @@ public class PatientController {
 		return patientService.savePatient(patients);
 	}
 	
+	
 	@GetMapping("All")
 	public ResponseEntity<?>getAll(){
 		List<Patients>patients=patientService.getAllPatients();
