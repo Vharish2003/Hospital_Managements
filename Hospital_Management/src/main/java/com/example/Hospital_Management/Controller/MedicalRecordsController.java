@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,8 +29,15 @@ public class MedicalRecordsController {
 		return recordService.saveRecords(records);
 	}
 	@GetMapping("All")
-	public List<Medical_Records>getAll(){
-		return recordService.getAllRecords();
+	public ResponseEntity<?>getAll(){
+		List<Medical_Records>records=recordService.getAllRecords();
+		if(records.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Records are not inserted");
+					
+		}
+		else {
+			return ResponseEntity.ok(records);
+		}
 	}
 	@GetMapping("/{id}")
 	public Optional<Medical_Records>getByid(@PathVariable Long id){

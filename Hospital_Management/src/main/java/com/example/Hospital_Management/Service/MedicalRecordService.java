@@ -26,5 +26,15 @@ public class MedicalRecordService {
 	public Optional<Medical_Records>getById(Long id){
 		return recordsRepo.findById(id);
 	}
+	
+	public boolean deleteById(Long id) {
+		if(recordsRepo.existsById(id)) {
+			recordsRepo.deleteById(id);
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 
 }
