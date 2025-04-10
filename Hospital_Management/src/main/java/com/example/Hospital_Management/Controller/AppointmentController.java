@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,8 +33,15 @@ public class AppointmentController {
 		return appointentService.getAllAppointments();
 	}
 	@GetMapping("/{id}")
-	public Optional<Appointments>getByid(@PathVariable Long id){
-		return appointentService.getById(id);
+	public ResponseEntity <Optional<Appointments>> getByid(@PathVariable Long id){
+
+		Optional<Appointments> appointments = appointentService.getById(id);
+		if (appointments.isPresent()){
+			return ResponseEntity.ok(appointments);
+		}
+		else {
+			return ResponseEntity.ok(appointments);
+		}
 	}
 
 }
