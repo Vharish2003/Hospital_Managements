@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,8 +31,14 @@ public class PatientController {
 	}
 	
 	@GetMapping("All")
-	public List<Patients>getAll(){
-		return patientService.getAllPatients();
+	public ResponseEntity<?>getAll(){
+		List<Patients>patients=patientService.getAllPatients();
+		if(patients.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Values are not inserted");
+		}
+		else {
+			return ResponseEntity.ok(patients);
+		}
 	}
 	
 
@@ -43,6 +50,17 @@ public class PatientController {
 		}
 		else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("patient Id is Not_Found in Given List "+id);
+		}
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?>deleteId(@PathVariable Long id){
+		boolean patients=patientService.deleteByid(id);
+		if(patients) {
+			return ResponseEntity.ok("success fully deleted");
+		}
+		else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("given id is not deleted");
 		}
 	}
 

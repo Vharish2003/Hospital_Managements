@@ -25,5 +25,15 @@ public class NurseService {
 	public Optional<Nurses>getById(Long id){
 		return nurseRepo.findById(id);
 	}
+	
+	public boolean deleteById(Long id) {
+		if(nurseRepo.existsById(id)) {
+			nurseRepo.deleteById(id);
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 
 }
