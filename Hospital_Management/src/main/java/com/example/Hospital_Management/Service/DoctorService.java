@@ -24,5 +24,13 @@ public class DoctorService {
 	public Optional<Doctors>getById(Long id){
 		return doctorRepo.findById(id);
 	}
+	public boolean deleteById(Long id) {
+		if(doctorRepo.existsById(id)) {
+			doctorRepo.deleteById(id);
+			return true;
+		}else {
+			return false;
+		}
+	}
 
 }

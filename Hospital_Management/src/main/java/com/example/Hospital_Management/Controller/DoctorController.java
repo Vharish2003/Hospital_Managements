@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,11 +30,34 @@ public class DoctorController {
 	}
 	
 	@GetMapping("All")
-	public List<Doctors>getAll(){
-		return doctorService.getAllDoctors();
+	public ResponseEntity<?>getAll(){
+		List<Doctors>doctors=doctorService.getAllDoctors();
+		if(doctors.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Given Table is Empty");
+		}
+		else {
+			return ResponseEntity.ok(doctors);
+		}
 	}
 	@GetMapping("/{id}")
-	public Optional<Doctors>getByid(@PathVariable Long id){
-		return doctorService.getById(id);
+	public ResponseEntity<?>getByid(@PathVariable Long id){
+		Optional<Doctors>doctors=doctorService.getById(id);
+		if(doctors.isPresent()) {
+			return ResponseEntity.ok(id);
+		}
+		else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Given id is Not Exists" +id);
+		}
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?>deleteByid(@PathVariable Long id){
+		boolean doctors=doctorService.deleteById(id);
+		if(doctors) {
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body("Given Id Is Success Fully Deleted"+id);
+		}
+		else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Given Id is Not Deleted"+id);
+		}
 	}
 }
