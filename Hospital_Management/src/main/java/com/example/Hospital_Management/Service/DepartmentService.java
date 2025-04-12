@@ -25,5 +25,14 @@ public class DepartmentService {
 	public Optional<Departments>getById(Long id){
 		return departmentRepo.findById(id);
 	}
+	public boolean deleteById(Long id) {
+		if(departmentRepo.existsById(id)) {
+			departmentRepo.deleteById(id);
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 
 }

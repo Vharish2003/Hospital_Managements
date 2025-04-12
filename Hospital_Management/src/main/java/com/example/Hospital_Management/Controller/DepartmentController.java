@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,12 +30,35 @@ public class DepartmentController {
 		return departmentService.saveDepartment(department);
 	}
 	@GetMapping("All")
-	public List<Departments>getAll(){
-		return departmentService.getAllDepartments();
+	public ResponseEntity<?>getAll(){
+		List<Departments>department=departmentService.getAllDepartments();
+		if(department.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body("Given items are Not Exists");
+		}
+		else {
+			return ResponseEntity.ok(department);
+		}
 	}
 	@GetMapping("/{id}")
-	public Optional<Departments>findId(@PathVariable Long id){
-		return departmentService.getById(id);
+	public ResponseEntity<?>getByid(@PathVariable Long id){
+		Optional<Departments>department=departmentService.getById(id);
+		if(department.isPresent()) {
+			return ResponseEntity.ok(id);
+		}
+		else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("given id is not exists"+id);
+		}
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?>deleteByid(@PathVariable Long id){
+		boolean department=departmentService.deleteById(id);
+		if(department) {
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body("Given id is Success Fully Deleted"+id);
+		}
+		else {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("given id is not deleted"+id);
+		}
 	}
 
 }
