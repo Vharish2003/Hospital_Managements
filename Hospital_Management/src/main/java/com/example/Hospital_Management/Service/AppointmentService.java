@@ -24,5 +24,14 @@ public class AppointmentService {
 	public Optional<Appointments>getById(Long id){
 		return appointmentRepo.findById(id);
 	}
+	public boolean deleteById(Long id) {
+		if(appointmentRepo.existsById(id)) {
+			appointmentRepo.deleteById(id);
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 
 }
