@@ -3,6 +3,8 @@ package com.example.Hospital_Management.Entity;
 import java.sql.Time;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,19 +13,27 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Appointments {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long Apt_Id;
+	@JsonProperty("Apt_Date")
 	private Date Apt_Date;
+	@JsonProperty("Apt_Time")
 	private Time Apt_Time;
 	
 	@ManyToOne
+	@JsonProperty("D_Id")
 	@JoinColumn(name="D_Id")
 	private Doctors doctors;
 	
 	@ManyToOne
+	@JsonProperty("P_Id")
 	@JoinColumn(name="P_Id")
 	private Patients patients;
 
