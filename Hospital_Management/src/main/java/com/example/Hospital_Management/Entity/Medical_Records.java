@@ -2,6 +2,7 @@ package com.example.Hospital_Management.Entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,25 +10,39 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Medical_Records {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long Rec_Id;
+	@JsonProperty("Diagnosis")
 	private String Diagnosis;
+	@JsonProperty("Prescription")
 	private String Prescription;
+	@JsonProperty("Rec_Date")
 	private Date Rec_Date;
+	@JsonProperty("Treatment")
 	private String Treatment;
 	
 	
 	@ManyToOne
+	@JsonProperty("D_Id")
 	@JoinColumn(name="D_Id")
 	private Doctors doctors;
 	
 	@ManyToOne
 	@JoinColumn(name="P_Id")
+	@JsonProperty("P_Id")
 	private Patients patients;
 
 	public long getRec_Id() {

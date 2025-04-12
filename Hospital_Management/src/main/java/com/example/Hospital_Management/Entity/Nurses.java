@@ -1,5 +1,7 @@
 package com.example.Hospital_Management.Entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,11 +23,15 @@ public class Nurses {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long N_Id;
+	@JsonProperty("Name")
 	private String Name;
+	@JsonProperty("Shift")
 	private String Shift;
+	@JsonProperty("contact")
 	private long contact;
 	
 	@ManyToOne
+	@JsonProperty("Dept_Id")
 	@JoinColumn(name="Dept_Id")
 	private Departments departments;
 
